@@ -22,7 +22,17 @@
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
-
+/**
+ * General settings
+ * Disable the Floating point unit under Project -> Properties -> C/C++Build -> Settings -> MCU-Settings
+ * Set Floating-Point Unit to "None"
+ * Set Floating-Point ABI to "Software Implementation"
+ *
+ * Enable the SWV Debugging
+ * Got to Run -> Debug Configurations.. -> <Project> -> Debugger
+ * Enable the Serial Wire Viewer (SWV)
+ * Add the SWV View Window -> Show View -> SWV -> SWV ITM Data Console and Start the Trace (big red button)
+ */
 int main(void)
 {
     /* Loop forever */
