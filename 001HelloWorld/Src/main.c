@@ -32,6 +32,7 @@
  * Got to Run -> Debug Configurations.. -> <Project> -> Debugger
  * Enable the Serial Wire Viewer (SWV)
  * Add the SWV View Window -> Show View -> SWV -> SWV ITM Data Console and Start the Trace (big red button)
+ * Enable in the SWV Data Console Settings the ITM Stimulus port bit 0
  */
 int main(void)
 {
