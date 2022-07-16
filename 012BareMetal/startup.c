@@ -232,7 +232,7 @@ uint32_t vectors[] __attribute__((section (".isr_vector")))= {
 void Reset_handler(void)
 {
 	// copy .data section to SRAM
-	uint32_t size = &__END_OF_DATA__ - &__START_OF_DATA__;
+	uint32_t size = (uint32_t)&__END_OF_DATA__ - (uint32_t)&__START_OF_DATA__;
 	
 	uint8_t *pDst = (uint8_t *)&__START_OF_DATA__; // sram
 	uint8_t *pSrc = (uint8_t *)&__END_OF_TEXT__; // flash
