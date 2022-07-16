@@ -25,23 +25,29 @@ MEMORY
 
 SECTION
 {
-    .text
+    .text :
 	{
 	    *(.irs_vector) /* take all with '*' */
 	    *(.text)
 		*(.rodata)
+		. = ALIGN(4);
 		__END_OF_TEXT__ = .; /* stores the updated location counter value in to the symbol '__END_OF_TEXT__' */
 	} >FLASH
 	
-	.data
+	.data :
 	{
 	    __START_OF_DATA__ = .;
 	    *(.data)
+		. = ALIGN(4);
 		__END_OF_DATA__ = .;
 	} >SRAM AT> FLASH /* absolut addreses are inside SRAM */
 	
-	.bss
+	.bss :
 	{
+		__START_OF_BSS__ = .;
 	    *(.bss)
+		*(COMMON)
+		. = ALIGN(4);
+		__END_OF_BSS__ = .;
 	} >SRAM
 }

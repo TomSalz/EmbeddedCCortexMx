@@ -7,6 +7,14 @@
 
 #define STACK_START		( SRAM_END )
 
+extern volatile uint32_t __END_OF_TEXT__;
+extern volatile uint32_t __START_OF_DATA__;
+extern volatile uint32_t __END_OF_DATA__;
+extern volatile uint32_t __START_OF_BSS__;
+extern volatile uint32_t __END_OF_BSS__;
+
+int main(void); // prototype of main
+
 void Reset_handler(void);
 /* Weak symbol (source: https://en.wikipedia.org/wiki/Weak_symbol)
  * A weak symbol denotes a specially annotated symbol during linking of Executable and Linkable Format (ELF)
@@ -224,10 +232,28 @@ uint32_t vectors[] __attribute__((section (".isr_vector")))= {
 void Reset_handler(void)
 {
 	// copy .data section to SRAM
+	uint32_t size = &__END_OF_DATA__ - &__START_OF_DATA__;
+	
+	uint8_t *pDst = (uint8_t *)&__START_OF_DATA__; // sram
+	uint8_t *pSrc = (uint8_t *)&__END_OF_TEXT__; // flash
+	
+	for(uint32_t ulCnt = 0; ulCnt < size; ulCnt++)
+	{
+		*pDst++ = *pSrc++;
+	}
 	
 	// init the .bss section to zero in SRAM
+	size = &__START_OF_BSS__ - &__END_OF_BSS__;
+	
+	pDst = (uint8_t *)&__END_OF_BSS__;
+	
+	for(uint32_t ulCnt = 0; ulCnt < size; ulCnt++)
+	{
+		*pDst++ = *pSrc++;
+	}
 	
 	// call main()
+	main();
 }
 
 
